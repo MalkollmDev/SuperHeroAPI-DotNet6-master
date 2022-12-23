@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SuperHeroAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class SuperHeroController : ControllerBase
     {
@@ -12,6 +12,12 @@ namespace SuperHeroAPI.Controllers
         public SuperHeroController(DataContext context)
         {
             _context = context;
+        }
+
+        [HttpGet("ping")]
+        public ActionResult Ping()
+        {
+            return Ok("Ping Pong!");
         }
 
         [HttpGet]
