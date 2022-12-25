@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SuperHeroAPI.Models;
 
 namespace SuperHeroAPI.Data
 {
@@ -7,5 +8,6 @@ namespace SuperHeroAPI.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public DbSet<SuperHero> SuperHeroes { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
     }
 }
