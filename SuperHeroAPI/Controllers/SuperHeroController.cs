@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SuperHeroAPI.Models;
+using System.Numerics;
 
 namespace SuperHeroAPI.Controllers
 {
@@ -36,13 +37,35 @@ namespace SuperHeroAPI.Controllers
             return Ok(hero);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<List<SuperHero>>> AddHero(SuperHero hero)
-        {
-            _context.SuperHeroes.Add(hero);
-            await _context.SaveChangesAsync();
+        //[HttpPost]
+        //public async Task<ActionResult<List<SuperHero>>> AddHero(SuperHero hero)
+        //{
+        //    _context.SuperHeroes.Add(hero);
+        //    await _context.SaveChangesAsync();
 
-            return Ok(await _context.SuperHeroes.ToListAsync());
+        //    return Ok(await _context.SuperHeroes.ToListAsync());
+        //}
+
+        [HttpPost]
+        public async Task<ActionResult<List<Teacher>>> AddTeacher()
+        {
+            // создание и добавление моделей
+            Teacher t1 = new() { LastName = "Фаткуллин", FirstName = "Марсель", MiddleName = "Саматович" };
+            Teacher t2 = new() { LastName = "Парадова", FirstName = "Юлия", MiddleName = "Хусаиновна" };
+            _context.Teachers.Add(t1);
+            _context.Teachers.Add(t2);
+            _context.SaveChanges();
+
+            Lesson pl1 = new() { Name = "Физика", Teacher = t1 };
+            Lesson pl2 = new() { Name = "Психология", Teacher = t2 };
+            _context.Lessons.AddRange(new List<Lesson> { pl1, pl2 });
+            _context.SaveChanges();
+
+
+            //_context.Teachers.Add(teacher);
+            //await _context.SaveChangesAsync();
+
+            return Ok(await _context.Teachers.ToListAsync());
         }
 
         [HttpPut]
