@@ -47,29 +47,35 @@ namespace SuperHeroAPI.Controllers
         //}
 
         [HttpPost]
-        public async Task<ActionResult<List<Teacher>>> AddTeacher()
+        public async Task<ActionResult<List<Teacher>>> Post(Teacher teacher)
         {
-            // создание и добавление моделей
-            Teacher t1 = new() { LastName = "Фаткуллин", FirstName = "Марсель", MiddleName = "Саматович" };
-            Teacher t2 = new() { LastName = "Парадова", FirstName = "Юлия", MiddleName = "Хусаиновна" };
-            _context.Teachers.Add(t1);
-            _context.Teachers.Add(t2);
-            _context.SaveChanges();
+            //Teacher t1 = new() { LastName = "Фаткуллин", FirstName = "Марсель", MiddleName = "Саматович" };
+            //Teacher t2 = new() { LastName = "Парадова", FirstName = "Юлия", MiddleName = "Хусаиновна" };
+            //_context.Teachers.Add(t1);
 
-            Lesson pl1 = new() { Name = "Физика", Teacher = t1 };
-            Lesson pl2 = new() { Name = "Психология", Teacher = t2 };
-            _context.Lessons.AddRange(new List<Lesson> { pl1, pl2 });
-            _context.SaveChanges();
+            //_context.Teachers.Add(t2);
+            //_context.SaveChanges();
 
+            //Lesson pl1 = new() { Name = "Физика", TeacherId = t1.Id };
+            //Lesson pl2 = new() { Name = "Психология", Teacher = t2 };
+            //_context.Lessons.AddRange(new List<Lesson> { pl1, pl2 });
+            //_context.SaveChanges();
 
-            //_context.Teachers.Add(teacher);
-            //await _context.SaveChangesAsync();
+            try
+            {
+                _context.Teachers.Add(teacher);
+                await _context.SaveChangesAsync();
 
-            return Ok(await _context.Teachers.ToListAsync());
+                return Ok(teacher);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut]
-        public async Task<ActionResult<List<SuperHero>>> UpdateHero(SuperHero request)
+        public async Task<ActionResult<List<SuperHero>>> Update(SuperHero request)
         {
             var dbHero = await _context.SuperHeroes.FindAsync(request.Id);
             if (dbHero == null)

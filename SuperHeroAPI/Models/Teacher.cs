@@ -8,10 +8,6 @@ namespace SuperHeroAPI.Models
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
-        public ICollection<Lesson> Lessons { get; set; }
-        public Teacher()
-        {
-            Lessons = new List<Lesson>();
-        }
+        public ICollection<Lesson>? Lessons { get; set; }
     }
 }

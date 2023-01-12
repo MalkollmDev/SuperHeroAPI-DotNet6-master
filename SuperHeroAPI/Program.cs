@@ -17,6 +17,16 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// configure CORS policy
+app.UseCors(policyBuilder =>
+{
+    string[] origins = app.Configuration.GetSection("CorsAllowedHosts").Get<string[]>();
+
+    policyBuilder.WithOrigins(origins)
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
