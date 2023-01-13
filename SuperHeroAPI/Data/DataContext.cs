@@ -11,5 +11,6 @@ namespace SuperHeroAPI.Data
         public DbSet<SuperHero> SuperHeroes { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<New> News { get; set; }
     }
 }
