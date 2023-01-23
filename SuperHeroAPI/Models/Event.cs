@@ -1,11 +1,10 @@
 ﻿namespace SuperHeroAPI.Models
 {
-    public class New
+    public class Event
     {
         public int Id { get; set; }        
         public string Title { get; set; }
-        public string Preface { get; set; }
-        public string Text { get; set; }
+        public string Content { get; set; }
         public bool isPublished { get; set; }
         public DateTime published { get; set; }
     }

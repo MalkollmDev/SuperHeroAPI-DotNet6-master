@@ -34,19 +34,6 @@ namespace SuperHeroAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Lesson>>> Post(Lesson lesson)
         {
-            //Teacher t1 = new() { LastName = "Фаткуллин", FirstName = "Марсель", MiddleName = "Саматович" };
-            //Teacher t2 = new() { LastName = "Парадова", FirstName = "Юлия", MiddleName = "Хусаиновна" };
-            //_context.Teachers.Add(t1);
-
-            //_context.Teachers.Add(t2);
-            //_context.SaveChanges();
-
-            //Lesson pl1 = new() { Name = "Физика", TeacherId = t1.Id };
-            //Lesson pl2 = new() { Name = "Психология", Teacher = t2 };
-            //_context.Lessons.AddRange(new List<Lesson> { pl1, pl2 });
-            //_context.SaveChanges();
-
-
             _context.Lessons.Add(lesson);
             await _context.SaveChangesAsync();
 
@@ -60,17 +47,10 @@ namespace SuperHeroAPI.Controllers
             if (dbLesson == null)
                 return NotFound("Lesson not found.");
 
-            dbLesson.Name = lesson.Name;
+            _context.Lessons.Update(dbLesson);
+            await _context.SaveChangesAsync();            
 
-            if (lesson.TeacherId != null)
-            {
-                dbLesson.TeacherId = lesson.TeacherId;
-            }
-
-            await _context.SaveChangesAsync();
-            var result = _context.Lessons.Include(l => l.Teacher).Where(l => l.Id == dbLesson.Id);
-
-            return Ok(result);
+            return Ok(lesson);
         }
 
         [HttpDelete("{id}")]

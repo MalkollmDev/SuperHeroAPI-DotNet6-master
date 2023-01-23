@@ -40,4 +40,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+try { app.Run(); }
+catch(Exception e)
+{
+    Console.WriteLine(e);
+}

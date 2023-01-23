@@ -1,0 +1,63 @@
+﻿CREATE TABLE [dbo].[Lessons] (
+    [Id]   INT        NOT NULL    PRIMARY KEY IDENTITY,
+    [Name] VARCHAR(150) NOT NULL,    
+);
+ 
+CREATE TABLE [dbo].[Events] (
+    [Id]   INT        NOT NULL    PRIMARY KEY IDENTITY,
+    [Title] VARCHAR(150) NOT NULL,  
+	[Content] NVARCHAR (MAX) NULL,
+	[IsPublished] BIT NULL,
+	[Published] DATETIME NULL
+);
+
+CREATE TABLE [dbo].[Teachers] (
+    [Id]   INT        NOT NULL    PRIMARY KEY IDENTITY,
+    [LastName] VARCHAR(250) NOT NULL,  
+	[FirstName] VARCHAR(250) NOT NULL,  
+	[MiddleName] VARCHAR(250) NOT NULL,
+	[Phone] VARCHAR(150) NULL,
+    [Email] VARCHAR(250) NULL,
+	[IsReady] BIT NULL
+);
+
+CREATE TABLE [dbo].[Groups] (
+    [Id]   INT       NOT NULL     PRIMARY KEY IDENTITY,
+    [Number] INT NOT NULL,    
+);
+ 
+CREATE TABLE [dbo].[Lesson_Group] (
+    [LessonId]  INT REFERENCES Lessons(id),
+    [GroupId] INT REFERENCES Groups(id),
+    CONSTRAINT Lessons_Groups_pk PRIMARY KEY (LessonId, GroupId)
+);
+
+ВСТАВКА ЗНАЧЕНИЙ В ТАБЛИЦЫ
+/******insert into Lessons values ('Обучение г.');
+insert into Lessons values ('Письмо');
+insert into Lessons values ('Окружающий мир');
+insert into Lessons values ('ИЗО');
+insert into Lessons values ('Литературное чтение');
+insert into Lessons values ('Математика');
+insert into Lessons values ('Русский язык');
+insert into Lessons values ('История');
+insert into Lessons values ('Физика');
+insert into Lessons values ('Английский язык');
+
+insert into dbo.Groups values ('1');
+insert into dbo.Groups values ('2');
+insert into dbo.Groups values ('3');
+insert into dbo.Groups values ('4');
+insert into dbo.Groups values ('5');
+insert into dbo.Groups values ('6');
+insert into dbo.Groups values ('7');
+
+insert into Lesson_Group values (1, 1), (2, 1), (3, 1), (4, 1), (5, 2), (6, 2), (7, 2), (3, 2);******/
+
+МНОЖЕСТВЕННЫЙ ВЫБОР ИЗ 2-х ТАБЛИЦ
+select Lessons.Id, Lessons.Name, G.Number from Lessons 
+	left join Lesson_Group as PT on PT.LessonId=Lessons.Id
+	left join Groups as G on G.Id=PT.GroupId;
+
+ВЫЗОВ ХРАНИМКИ
+select * from dbo.GetAllLessonsWithGroups()
