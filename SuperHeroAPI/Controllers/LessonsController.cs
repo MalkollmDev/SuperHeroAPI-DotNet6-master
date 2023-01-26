@@ -1,17 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SuperHeroAPI.Models;
-using System.Numerics;
 
 namespace SuperHeroAPI.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class LessonsContoller : ControllerBase
+    public class LessonsController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public LessonsContoller(DataContext context)
+        public LessonsController(DataContext context)
         {
             _context = context;
         }
@@ -19,7 +17,29 @@ namespace SuperHeroAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Lesson>>> Get()
         {
-            return Ok(await _context.Lessons.ToListAsync());
+            var model = await _context.Lesson_Group
+                .Include(x => x.Lessons)
+                .Include(x => x.Groups)
+                .Include(x => x.Teachers)
+                .ToListAsync();
+
+            var result = new List<LessonDto>();
+            foreach (var item in model)
+            {
+                var dto = new LessonDto
+                {
+                    LessonName = item.Lessons.Name,
+                    NumberGroup = item.Groups.Number,
+                    LastName = item.Teachers.LastName,
+                    FirstName = item.Teachers.FirstName,
+                    MiddleName = item.Teachers.MiddleName,
+                    Phone = item.Teachers.Phone,
+                    Email = item.Teachers.Email,
+                    IsReady = item.Teachers.IsReady,
+                };
+                result.Add(dto);
+            }
+            return Ok(result);
         }
 
         [HttpGet("{id}")]

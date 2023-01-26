@@ -17,5 +17,6 @@ namespace SuperHeroAPI.Data
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<Lesson_Group> Lesson_Group { get; set; }
     }
 }
