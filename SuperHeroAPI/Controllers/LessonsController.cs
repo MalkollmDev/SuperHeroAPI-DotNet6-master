@@ -22,6 +22,7 @@ namespace SuperHeroAPI.Controllers
                 .Include(x => x.Lessons)
                 .Include(x => x.Groups)
                 .Include(x => x.Teachers)
+                .Include(x => x.LessonTimes)
                 .ToListAsync();
 
             var result = new List<LessonDto>();
@@ -63,7 +64,10 @@ namespace SuperHeroAPI.Controllers
                         MiddleName = item.Teachers.MiddleName,
                         Phone = item.Teachers.Phone,
                         Email = item.Teachers.Email,
-                        IsReady = item.Teachers.IsReady
+                        IsReady = item.Teachers.IsReady,
+                        LessonStart = item.LessonTimes.LessonStart,
+                        LessonEnd = item.LessonTimes.LessonEnd,
+                        LessonBreak = item.LessonTimes.LessonBreak
                     };
                     result.Add(dto);
                 }

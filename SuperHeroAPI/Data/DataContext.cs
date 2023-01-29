@@ -18,5 +18,6 @@ namespace SuperHeroAPI.Data
         public DbSet<Group> Groups { get; set; }
         public DbSet<Lesson_Group> Lesson_Group { get; set; }
         public DbSet<File> Files { get; set; }
+        public DbSet<LessonTime> LessonTimes { get; set; }
     }
 }

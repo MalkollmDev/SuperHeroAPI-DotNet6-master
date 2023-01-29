@@ -9,5 +9,8 @@
         public string Phone { get; set; }
         public string Email { get; set; }
         public bool IsReady { get; set; }
+        public string LessonStart { get; set; }
+        public string LessonEnd { get; set; }
+        public string LessonBreak { get; set; }
     }
 }

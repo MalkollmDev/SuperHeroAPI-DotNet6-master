@@ -9,5 +9,6 @@
         public Lesson Lessons { get; set; }
         public Group Groups { get; set; }
         public Teacher Teachers { get; set; }
+        public LessonTime LessonTimes { get; set; }
     }
 }
