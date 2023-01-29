@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SuperHeroAPI.Models;
+using SuperHeroAPI.Models.DTO.LessonDTO;
 
 namespace SuperHeroAPI.Controllers
 {
@@ -24,22 +25,52 @@ namespace SuperHeroAPI.Controllers
                 .ToListAsync();
 
             var result = new List<LessonDto>();
+            var _list = new List<int>();
             foreach (var item in model)
+            {                
+                _list.Add(item.Groups.Number);              
+            }
+
+            var uniqueList = _list.Distinct().ToList();
+
+            foreach (var item in uniqueList)
             {
                 var dto = new LessonDto
                 {
-                    LessonName = item.Lessons.Name,
-                    NumberGroup = item.Groups.Number,
-                    LastName = item.Teachers.LastName,
-                    FirstName = item.Teachers.FirstName,
-                    MiddleName = item.Teachers.MiddleName,
-                    Phone = item.Teachers.Phone,
-                    Email = item.Teachers.Email,
-                    IsReady = item.Teachers.IsReady,
+                    NumberGroup = item,
+                    LessonItems = GetLessonItems(item, model)
                 };
+
                 result.Add(dto);
             }
+
             return Ok(result);
+        }
+
+        private List<LessonItem> GetLessonItems(int number, List<Lesson_Group> model)
+        {            
+            var result = new List<LessonItem>();            
+
+            foreach (var item in model)
+            {
+                if (number == item.Groups.Number)
+                {
+                    var dto = new LessonItem
+                    {
+                        LessonName = item.Lessons.Name,
+                        LastName = item.Teachers.LastName,
+                        FirstName = item.Teachers.FirstName,
+                        MiddleName = item.Teachers.MiddleName,
+                        Phone = item.Teachers.Phone,
+                        Email = item.Teachers.Email,
+                        IsReady = item.Teachers.IsReady
+                    };
+                    result.Add(dto);
+                }
+
+            }
+
+            return result;
         }
 
         [HttpGet("{id}")]
@@ -68,7 +99,7 @@ namespace SuperHeroAPI.Controllers
                 return NotFound("Lesson not found.");
 
             _context.Lessons.Update(dbLesson);
-            await _context.SaveChangesAsync();            
+            await _context.SaveChangesAsync();
 
             return Ok(lesson);
         }
