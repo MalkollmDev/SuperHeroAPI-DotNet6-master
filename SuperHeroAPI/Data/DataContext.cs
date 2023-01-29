@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SuperHeroAPI.Models;
-using System.Numerics;
+﻿using SuperHeroAPI.Models;
+using File = SuperHeroAPI.Models.File;
 
 namespace SuperHeroAPI.Data
 {
@@ -18,5 +17,6 @@ namespace SuperHeroAPI.Data
         public DbSet<Event> Events { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Lesson_Group> Lesson_Group { get; set; }
+        public DbSet<File> Files { get; set; }
     }
 }

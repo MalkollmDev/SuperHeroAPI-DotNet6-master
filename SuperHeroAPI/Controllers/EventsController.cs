@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SuperHeroAPI.Models;
+using SuperHeroAPI.Models.DTO;
+using System;
 using System.Numerics;
 
 namespace SuperHeroAPI.Controllers
@@ -32,8 +34,27 @@ namespace SuperHeroAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Event>>> Post([FromForm] string title, [FromForm] string text, [FromForm] bool isPublished, [FromForm] IFormFileCollection files)
+        public async Task<ActionResult<List<Event>>> Post([FromForm] string title, [FromForm] string content, [FromForm] bool isPublished, [FromForm] IFormFileCollection files)
         {
+            foreach (var item in files)
+            {
+                var file = new Models.File();
+
+                var fileNameParts = item.FileName.Split('.');
+                var stack = new Stack<string>(fileNameParts);
+                file.Extension = stack.Pop();
+                
+                //file.OriginalName = stack.ToArray().Reverse().ToArray().Join(".");
+                //file.Extension= fileNameParts.Pop;
+            }
+            var model = new EventDTO
+            {
+                Title = title,
+                Content = content,
+                IsPublished = isPublished,
+                Published = DateTime.Now,
+                //Files = new Models.File { Data = }
+            };
             //_context.Events.Add(item);
             //await _context.SaveChangesAsync();
 
