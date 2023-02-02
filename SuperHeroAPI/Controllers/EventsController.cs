@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SuperHeroAPI.Models;
 using SuperHeroAPI.Models.DTO;
-using System;
-using System.Numerics;
 
 namespace SuperHeroAPI.Controllers
 {
@@ -22,6 +19,12 @@ namespace SuperHeroAPI.Controllers
         public async Task<ActionResult<List<Event>>> Get()
         {
             return Ok(await _context.Events.ToListAsync());
+        }
+
+        [HttpGet("GetPartEvents")]
+        public async Task<ActionResult<List<Event>>> GetPartEvents(int count)
+        {
+            return Ok(await _context.Events.Take(count).ToListAsync());
         }
 
         [HttpGet("{id}")]
