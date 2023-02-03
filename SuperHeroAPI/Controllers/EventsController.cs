@@ -39,28 +39,37 @@ namespace SuperHeroAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Event>>> Post([FromForm] string title, [FromForm] string content, [FromForm] bool isPublished, [FromForm] IFormFileCollection files)
         {
-            foreach (var item in files)
-            {
-                var file = new Models.File();
-
-                var fileNameParts = item.FileName.Split('.');
-                var stack = new Stack<string>(fileNameParts);
-                file.Extension = stack.Pop();
-                
-                //file.OriginalName = stack.ToArray().Reverse().ToArray().Join(".");
-                //file.Extension= fileNameParts.Pop;
-            }
-            var model = new EventDTO
+            var model = new Event
             {
                 Title = title,
                 Content = content,
-                IsPublished = isPublished,
-                Published = DateTime.Now,
-                //Files = new Models.File { Data = }
+                isPublished = isPublished,
+                published = DateTime.Now
             };
-            //_context.Events.Add(item);
-            //await _context.SaveChangesAsync();
 
+            _context.Events.Add(model);
+            await _context.SaveChangesAsync();
+
+            foreach (var item in files)
+            {
+                var fileNameParts = item.FileName.Split('.');
+                var stack = new Stack<string>(fileNameParts);
+
+                using (var stream = new MemoryStream()) {
+                    item.CopyTo(stream);
+
+                    var file = new Models.File
+                    {
+                        Extension = stack.Pop(),
+                        OriginalName = string.Join(".", stack.ToArray().Reverse()),
+                        EventId = model.Id,
+                        Data = stream.GetBuffer()
+                    };
+
+                    _context.Files.Add(file);
+                    await _context.SaveChangesAsync();
+                }
+        }
             return Ok();
         }
 
