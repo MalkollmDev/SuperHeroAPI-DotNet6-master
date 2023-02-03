@@ -7,5 +7,6 @@
         public string Content { get; set; }
         public bool isPublished { get; set; }
         public DateTime published { get; set; }
+        public List<File> Files { get; set; }
     }
 }

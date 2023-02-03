@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 using SuperHeroAPI.Models;
 using SuperHeroAPI.Models.DTO;
+using System.Collections.Generic;
 
 namespace SuperHeroAPI.Controllers
 {
@@ -18,7 +20,37 @@ namespace SuperHeroAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Event>>> Get()
         {
-            return Ok(await _context.Events.ToListAsync());
+            var models = await _context.Events
+                .Include(X => X.Files)
+                .ToListAsync();
+
+            var events = new List<EventDTO>();
+            foreach (var model in models)
+            {
+                var e = new EventDTO 
+                { 
+                    Title = model.Title,
+                    Content = model.Content,
+                    IsPublished = model.isPublished,
+                    Published = model.published
+                };
+
+                foreach (var file in model.Files)
+                {
+                    var fileDTO = new FileDTO
+                    {
+                        Id = file.Id,
+                        Extension = file.Extension,
+                        DownloadUrl = $"{Request.Scheme}://{Request.Host}/File/{file.Id}"
+                    };
+
+                    e.Files.Add(fileDTO);
+                }                
+
+                events.Add(e);
+            }
+
+            return Ok(events);
         }
 
         [HttpGet("GetPartEvents")]
