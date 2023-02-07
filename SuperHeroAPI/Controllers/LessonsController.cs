@@ -18,6 +18,12 @@ namespace SuperHeroAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Lesson>>> Get()
         {
+            return Ok(await _context.Lessons.ToListAsync());
+        }
+
+        [HttpGet("GetSchedule")]
+        public async Task<ActionResult<List<Lesson>>> GetSchedule()
+        {
             var model = await _context.Lesson_Group
                 .Include(x => x.Lessons)
                 .Include(x => x.Groups)
@@ -41,7 +47,6 @@ namespace SuperHeroAPI.Controllers
                     NumberGroup = item,
                     LessonItems = GetLessonItems(item, model)
                 };
-
                 result.Add(dto);
             }
 
@@ -71,7 +76,6 @@ namespace SuperHeroAPI.Controllers
                     };
                     result.Add(dto);
                 }
-
             }
 
             return result;
@@ -82,7 +86,8 @@ namespace SuperHeroAPI.Controllers
         {
             var lesson = await _context.Lessons.FindAsync(id);
             if (lesson == null)
-                return BadRequest("Hero not found.");
+                return BadRequest("Lesson not found.");
+
             return Ok(lesson);
         }
 
@@ -93,6 +98,23 @@ namespace SuperHeroAPI.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(lesson);
+        }
+
+        [HttpPost("AddSchedule")]
+        public async Task<ActionResult<List<Lesson_Group>>> Post([FromForm] int lessonId, [FromForm] int groupId, [FromForm] int teacherId, [FromForm] int lessonTimeId)
+        {
+            var model = new Lesson_Group
+            {
+                LessonId = lessonId,
+                GroupId = groupId,
+                TeacherId = teacherId,
+                LessonTimesId = lessonTimeId
+            };
+
+            _context.Lesson_Group.Add(model);
+            await _context.SaveChangesAsync();
+
+            return Ok(model);
         }
 
         [HttpPut]
