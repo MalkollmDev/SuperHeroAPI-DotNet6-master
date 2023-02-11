@@ -69,20 +69,21 @@ namespace SuperHeroAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Event>>> Post([FromForm] string title, [FromForm] string content, [FromForm] bool isPublished, [FromForm] IFormFileCollection files)
+        public async Task<ActionResult<List<Event>>> Post(IFormCollection files)
         {
+            bool myBool = Convert.ToBoolean(files["isPublished"]);
             var model = new Event
             {
-                Title = title,
-                Content = content,
-                isPublished = isPublished,
+                Title = files["title"],
+                Content = files["content"],
+                isPublished = myBool,
                 published = DateTime.Now
             };
 
             _context.Events.Add(model);
             await _context.SaveChangesAsync();
 
-            foreach (var item in files)
+            foreach (var item in files.Files)
             {
                 var fileNameParts = item.FileName.Split('.');
                 var stack = new Stack<string>(fileNameParts);
