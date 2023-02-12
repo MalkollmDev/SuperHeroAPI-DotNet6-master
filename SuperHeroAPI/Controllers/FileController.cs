@@ -26,7 +26,15 @@ namespace SuperHeroAPI.Controllers
 
             var extension = file.Extension.Replace(".", "");
 
-            return new FileContentResult(file.Data, $"file/{extension}");
+            return new FileContentResult(file.Data, $"application/{extension}");
+        }
+
+        [HttpGet("GetImageUrl/{id}")]
+        public async Task<ActionResult<string>> GetImageUrl(Guid id)
+        {
+            var DownloadUrl = $"{Request.Scheme}://{Request.Host}/File/{id}";
+
+            return DownloadUrl;
         }
 
         [HttpPost]

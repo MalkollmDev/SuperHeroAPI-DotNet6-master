@@ -27,8 +27,8 @@ namespace SuperHeroAPI.Controllers
             var events = new List<EventDTO>();
             foreach (var model in models)
             {
-                var e = new EventDTO 
-                { 
+                var e = new EventDTO
+                {
                     Title = model.Title,
                     Content = model.Content,
                     IsPublished = model.isPublished,
@@ -45,7 +45,7 @@ namespace SuperHeroAPI.Controllers
                     };
 
                     e.Files.Add(fileDTO);
-                }                
+                }
 
                 events.Add(e);
             }
@@ -88,7 +88,8 @@ namespace SuperHeroAPI.Controllers
                 var fileNameParts = item.FileName.Split('.');
                 var stack = new Stack<string>(fileNameParts);
 
-                using (var stream = new MemoryStream()) {
+                using (var stream = new MemoryStream())
+                {
                     item.CopyTo(stream);
 
                     var file = new Models.File
@@ -102,7 +103,7 @@ namespace SuperHeroAPI.Controllers
                     _context.Files.Add(file);
                     await _context.SaveChangesAsync();
                 }
-        }
+            }
             return Ok();
         }
 
