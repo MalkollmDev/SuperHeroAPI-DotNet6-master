@@ -23,13 +23,12 @@ namespace SuperHeroAPI.Controllers
             var documents = new List<DocumentsDTO>();
 
             
-
             foreach (var model in models)
             {
                 var file = _context.Files.FirstOrDefault(F => F.Id == model.FileId);
                 var d = new DocumentsDTO
                 {
-                    DownloadUrl = $"{Request.Scheme}://{Request.Host}/File/{file.Id}",
+                    DownloadUrl = $"http://api.malkollm.ru/File/{file.Id}",
                     OriginalName = file.OriginalName,
                     IsShow = model.IsShow
                 };

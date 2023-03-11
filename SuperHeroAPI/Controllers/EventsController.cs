@@ -20,8 +20,15 @@ namespace SuperHeroAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Event>>> Get()
         {
+            return Ok(await _context.Events.ToListAsync());
+        }
+
+        [HttpGet("GetPartEvents")]
+        public async Task<ActionResult<List<Event>>> GetPartEvents(int count)
+        {
             var models = await _context.Events
                 .Include(X => X.Files)
+                .Take(count)
                 .ToListAsync();
 
             var events = new List<EventDTO>();
@@ -41,7 +48,7 @@ namespace SuperHeroAPI.Controllers
                     {
                         Id = file.Id,
                         Extension = file.Extension,
-                        DownloadUrl = $"{Request.Scheme}://{Request.Host}/File/{file.Id}"
+                        DownloadUrl = $"http://api.malkollm.ru/File/{file.Id}"
                     };
 
                     e.Files.Add(fileDTO);
@@ -49,14 +56,7 @@ namespace SuperHeroAPI.Controllers
 
                 events.Add(e);
             }
-
             return Ok(events);
-        }
-
-        [HttpGet("GetPartEvents")]
-        public async Task<ActionResult<List<Event>>> GetPartEvents(int count)
-        {
-            return Ok(await _context.Events.Take(count).ToListAsync());
         }
 
         [HttpGet("{id}")]
