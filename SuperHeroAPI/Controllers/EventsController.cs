@@ -36,6 +36,7 @@ namespace SuperHeroAPI.Controllers
             {
                 var e = new EventDTO
                 {
+                    Id = model.Id,
                     Title = model.Title,
                     Content = model.Content,
                     IsPublished = model.isPublished,
@@ -62,10 +63,32 @@ namespace SuperHeroAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Event>> Get(int id)
         {
-            var item = await _context.Events.FindAsync(id);
-            if (item == null)
-                return BadRequest("Event not found.");
-            return Ok(item);
+            var model = await _context.Events
+                .Include(x => x.Files)
+                .FirstOrDefaultAsync(e => e.Id == id);
+            
+            var e = new EventDTO
+            {
+                Id = model.Id,
+                Title = model.Title,
+                Content = model.Content,
+                IsPublished = model.isPublished,
+                Published = model.published
+            };
+
+            foreach (var file in model.Files)
+            {
+                var fileDTO = new FileDTO
+                {
+                    Id = file.Id,
+                    Extension = file.Extension,
+                    DownloadUrl = $"http://api.malkollm.ru/File/{file.Id}"
+                };
+
+                e.Files.Add(fileDTO);
+            }
+
+            return Ok(e);
         }
 
         [HttpPost]
