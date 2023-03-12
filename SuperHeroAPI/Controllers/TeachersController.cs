@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SuperHeroAPI.Models;
-using System.Numerics;
 
 namespace SuperHeroAPI.Controllers
 {
