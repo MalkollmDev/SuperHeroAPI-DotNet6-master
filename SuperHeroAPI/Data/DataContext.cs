@@ -21,5 +21,6 @@ namespace SuperHeroAPI.Data
         public DbSet<LessonTime> LessonTimes { get; set; }
         public DbSet<Document> Documents { get; set; }
         public DbSet<Appeal> Appeals { get; set; }
+        public DbSet<Homework> Homeworks { get; set; }
     }
 }
