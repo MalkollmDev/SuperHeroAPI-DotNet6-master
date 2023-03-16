@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SuperHeroAPI.Models;
+using SuperHeroAPI.Models.DTO.Homework;
 using SuperHeroAPI.Models.DTO.LessonDTO;
 
 namespace SuperHeroAPI.Controllers

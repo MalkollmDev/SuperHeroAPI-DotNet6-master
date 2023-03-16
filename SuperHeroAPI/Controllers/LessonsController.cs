@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SuperHeroAPI.Models;
+using SuperHeroAPI.Models.DTO.Homework;
 using SuperHeroAPI.Models.DTO.LessonDTO;
 
 namespace SuperHeroAPI.Controllers
@@ -48,6 +49,34 @@ namespace SuperHeroAPI.Controllers
                     LessonItems = GetLessonItems(item, model)
                 };
                 result.Add(dto);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetGroupSchedule/{id}")]
+        public async Task<ActionResult<List<Lesson>>> GetGroupSchedule(int id)
+        {
+            var model = await _context.Lesson_Group
+                .Include(x => x.Lessons)
+                .Include(x => x.Groups)
+                .Include(x => x.Teachers)
+                .Include(x => x.LessonTimes)
+                .Where(x => x.GroupId == id)
+                .ToListAsync();
+
+            var result = new List<LessonItem>();
+            foreach (var item in model)
+            {
+                result.Add(new LessonItem
+                {
+                    LessonName = item.Lessons.Name,
+                    LessonStart = item.LessonTimes.LessonStart,
+                    LessonEnd = item.LessonTimes.LessonEnd,
+                    LastName = item.Teachers.LastName,
+                    FirstName = item.Teachers.FirstName,
+                    MiddleName = item.Teachers.MiddleName
+                });
             }
 
             return Ok(result);
