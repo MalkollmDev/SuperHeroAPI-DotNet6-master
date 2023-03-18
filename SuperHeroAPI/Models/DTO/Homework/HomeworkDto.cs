@@ -2,10 +2,12 @@
 
 namespace SuperHeroAPI.Models.DTO.Homework
 {
-    //public class LessonDto
-    //{
-    //    public int NumberGroup { get; set; }
-    //    public string LessonName { get; set; }
-    //    public List<LessonItem> LessonItems { get; set; }
-    //}
+    public class HomeworkDto
+    {
+        public int Id { get; set; }
+        public string LessonName { get; set; }        
+        public int NumberGroup { get; set; }        
+        public string Task { get; set; }        
+        public DateTime Date { get; set; }        
+    }
 }

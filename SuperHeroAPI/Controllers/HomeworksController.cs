@@ -31,6 +31,31 @@ namespace SuperHeroAPI.Controllers
             return Ok(homework);
         }
 
+        [HttpGet("GetHomeworkByGroupLesson/{groupId:int}/{lessonId:int}")]
+        public async Task<ActionResult<List<Homework>>> GetHomeworkByGroupLesson(int groupId, int lessonId)
+        {
+            var model = await _context.Homeworks
+                .Include(x => x.Lessons)
+                .Include(x => x.Groups)
+                .Where(x => x.GroupId == groupId && x.LessonId == lessonId)
+                .ToListAsync();
+
+            var result = new List<HomeworkDto>();
+            foreach (var item in model)
+            {
+                result.Add(new HomeworkDto
+                {
+                    Id = item.Id,
+                    LessonName = item.Lessons.Name,
+                    NumberGroup = item.Groups.Number,
+                    Task = item.Text,
+                    Date = item.Date
+                });
+            }
+
+            return Ok(result);
+        }
+
         //[HttpGet("GetHomeworks")]
         //public async Task<ActionResult<List<Lesson>>> GetHomeworks()
         //{

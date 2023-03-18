@@ -22,5 +22,7 @@ namespace SuperHeroAPI.Data
         public DbSet<Document> Documents { get; set; }
         public DbSet<Appeal> Appeals { get; set; }
         public DbSet<Homework> Homeworks { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
     }
 }

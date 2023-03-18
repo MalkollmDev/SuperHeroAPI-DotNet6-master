@@ -65,11 +65,12 @@ namespace SuperHeroAPI.Controllers
                 .Where(x => x.GroupId == id)
                 .ToListAsync();
 
-            var result = new List<LessonItem>();
+            var result = new List<LessonItemDto>();
             foreach (var item in model)
             {
-                result.Add(new LessonItem
+                result.Add(new LessonItemDto
                 {
+                    Id = item.LessonId,
                     LessonName = item.Lessons.Name,
                     LessonStart = item.LessonTimes.LessonStart,
                     LessonEnd = item.LessonTimes.LessonEnd,
@@ -82,15 +83,15 @@ namespace SuperHeroAPI.Controllers
             return Ok(result);
         }
 
-        private List<LessonItem> GetLessonItems(int number, List<Lesson_Group> model)
+        private List<LessonItemDto> GetLessonItems(int number, List<Lesson_Group> model)
         {            
-            var result = new List<LessonItem>();            
+            var result = new List<LessonItemDto>();            
 
             foreach (var item in model)
             {
                 if (number == item.Groups.Number)
                 {
-                    var dto = new LessonItem
+                    var dto = new LessonItemDto
                     {
                         LessonName = item.Lessons.Name,
                         LastName = item.Teachers.LastName,

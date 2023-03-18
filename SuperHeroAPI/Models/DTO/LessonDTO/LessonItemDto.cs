@@ -1,7 +1,8 @@
 ﻿namespace SuperHeroAPI.Models.DTO.LessonDTO
 {
-    public class LessonItem
+    public class LessonItemDto
     {
+        public int Id { get; set; }
         public string LessonName { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
