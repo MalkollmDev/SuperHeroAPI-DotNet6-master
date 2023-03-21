@@ -1,6 +1,4 @@
-﻿using SuperHeroAPI.Models.DTO.LessonDTO;
-
-namespace SuperHeroAPI.Models.DTO.Homework
+﻿namespace SuperHeroAPI.Models.DTO.Homework
 {
     public class HomeworkDto
     {

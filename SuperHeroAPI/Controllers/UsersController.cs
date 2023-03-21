@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SuperHeroAPI.Models;
+using SuperHeroAPI.Models.DTO.Homework;
+using System.Text.RegularExpressions;
 
 namespace SuperHeroAPI.Controllers
 {
@@ -38,6 +40,16 @@ namespace SuperHeroAPI.Controllers
             return Ok(user);
         }
 
+        [HttpPost("CheckUser")]
+        public async Task<ActionResult<List<User>>> CheckUser(User model)
+        {
+            var user = await _context.Users
+                    .Where(x => x.Login == model.Login && x.Password == model.Password)
+                    .ToListAsync();
+
+            return Ok(user);
+        }
+
         [HttpPut]
         public async Task<ActionResult<List<User>>> Update(User user)
         {
@@ -46,7 +58,7 @@ namespace SuperHeroAPI.Controllers
                 return NotFound("User not found.");
 
             _context.Users.Update(dbUser);
-            await _context.SaveChangesAsync();            
+            await _context.SaveChangesAsync();
 
             return Ok(user);
         }

@@ -63,6 +63,7 @@ namespace SuperHeroAPI.Controllers
                 .Include(x => x.Teachers)
                 .Include(x => x.LessonTimes)
                 .Where(x => x.GroupId == id)
+                .OrderBy(x => x.LessonTimesId)
                 .ToListAsync();
 
             var result = new List<LessonItemDto>();
