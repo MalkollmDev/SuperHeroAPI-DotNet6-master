@@ -16,7 +16,7 @@ namespace SuperHeroAPI.Data
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Group> Groups { get; set; }
-        public DbSet<Lesson_Group> Lesson_Group { get; set; }
+        public DbSet<LessonGroup> LessonGroups { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<LessonTime> LessonTimes { get; set; }
         public DbSet<Document> Documents { get; set; }
@@ -24,5 +24,6 @@ namespace SuperHeroAPI.Data
         public DbSet<Homework> Homeworks { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<ScheduleDate> ScheduleDates { get; set; }
     }
 }

@@ -3,6 +3,6 @@
     public class LessonDto
     {
         public int NumberGroup { get; set; }
-        public List<LessonItemDto>LessonItems { get; set; }
+        public List<LessonItemDto> LessonItems { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace SuperHeroAPI.Models
 {
-    public class Lesson_Group
+    public class LessonGroup
     {
         public int Id { get; set; }        
         public int LessonId { get; set; }

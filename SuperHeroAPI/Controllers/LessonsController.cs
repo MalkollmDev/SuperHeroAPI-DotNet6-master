@@ -25,7 +25,7 @@ namespace SuperHeroAPI.Controllers
         [HttpGet("GetSchedule")]
         public async Task<ActionResult<List<Lesson>>> GetSchedule()
         {
-            var model = await _context.Lesson_Group
+            var model = await _context.LessonGroups
                 .Include(x => x.Lessons)
                 .Include(x => x.Groups)
                 .Include(x => x.Teachers)
@@ -57,7 +57,7 @@ namespace SuperHeroAPI.Controllers
         [HttpGet("GetGroupSchedule/{id}")]
         public async Task<ActionResult<List<Lesson>>> GetGroupSchedule(int id)
         {
-            var model = await _context.Lesson_Group
+            var model = await _context.LessonGroups
                 .Include(x => x.Lessons)
                 .Include(x => x.Groups)
                 .Include(x => x.Teachers)
@@ -84,7 +84,7 @@ namespace SuperHeroAPI.Controllers
             return Ok(result);
         }
 
-        private List<LessonItemDto> GetLessonItems(int number, List<Lesson_Group> model)
+        private List<LessonItemDto> GetLessonItems(int number, List<LessonGroup> model)
         {            
             var result = new List<LessonItemDto>();            
 
@@ -132,9 +132,9 @@ namespace SuperHeroAPI.Controllers
         }
 
         [HttpPost("AddSchedule")]
-        public async Task<ActionResult<List<Lesson_Group>>> Post([FromForm] int lessonId, [FromForm] int groupId, [FromForm] int teacherId, [FromForm] int lessonTimeId)
+        public async Task<ActionResult<List<LessonGroup>>> Post([FromForm] int lessonId, [FromForm] int groupId, [FromForm] int teacherId, [FromForm] int lessonTimeId)
         {
-            var model = new Lesson_Group
+            var model = new LessonGroup
             {
                 LessonId = lessonId,
                 GroupId = groupId,
@@ -142,7 +142,7 @@ namespace SuperHeroAPI.Controllers
                 LessonTimesId = lessonTimeId
             };
 
-            _context.Lesson_Group.Add(model);
+            _context.LessonGroups.Add(model);
             await _context.SaveChangesAsync();
 
             return Ok(model);
